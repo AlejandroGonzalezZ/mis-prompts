@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Usando Tailwind CSS v4 desde CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            'deep-black': '#000000',
+            'dark-gray': '#0b0b0b',
+            'burnt-orange': '#ea580c',
+            'copper': '#b45309',
+            'amber-bright': '#fcd34d',
+            'white-bone': '#f9fafb',
+            'lava-red': '#ef4444',
+            'emerald-green': '#10b981',
+            'orange-alert': '#f97316',
+          },
+          boxShadow: {
+            'glow': '0 0 30px -10px rgba(234, 88, 12, 0.3)',
+          },
+          keyframes: {
+            'slide-in-from-top': {
+              '0%': { transform: 'translateY(-4px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            'slide-out-to-top': {
+              '0%': { transform: 'translateY(0)', opacity: '1' },
+              '100%': { transform: 'translateY(-4px)', opacity: '0' },
+            },
+          },
+          animation: {
+            'slide-in-from-top-4': 'slide-in-from-top 0.3s ease-out',
+            'slide-out-to-top-4': 'slide-out-to-top 0.3s ease-in',
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes fade-out {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+    .animate-in {
+      animation: fade-in 0.3s ease-out;
+    }
+    .animate-out {
+      animation: fade-out 0.3s ease-in;
+    }
+  </style>
+</head>
+<body class="bg-deep-black text-white-bone font-sans"
+  <div class="min-h-screen bg-deep-black text-white-bone font-sans p-4 flex flex-col">
+    <div class="flex-grow p-4 bg-dark-gray rounded-lg shadow-lg">
+      <!-- Panel Superior/Central para Generación -->
+      <h1 class="text-3xl font-bold text-amber-bright mb-6">Generador de Prompts</h1>
+
+      <div class="mb-6">
+        <label for="idea-input" class="block text-white-bone text-sm font-bold mb-2">Ingresa tu idea:</label>
+        <input type="text" id="idea-input" placeholder="Describe lo que quieres generar..." class="w-full p-3 rounded-lg bg-neutral-900 border border-neutral-700 text-white-bone focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 shadow-glow" />
+        <p class="text-xs text-neutral-500 mt-1">Modelo A (Lógico)</p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <div>
+          <label class="block text-white-bone text-sm font-bold mb-2">Personajes:</label>
+          <div class="flex space-x-4">
+            <label class="inline-flex items-center">
+              <input type="checkbox" class="form-checkbox text-orange-500 rounded" value="andy">
+              <span class="ml-2 text-white-bone">Andy</span>
+            </label>
+            <label class="inline-flex items-center">
+              <input type="checkbox" class="form-checkbox text-orange-500 rounded" value="cony">
+              <span class="ml-2 text-white-bone">Cony</span>
+            </label>
+            <label class="inline-flex items-center">
+              <input type="checkbox" class="form-checkbox text-orange-500 rounded" value="ambos">
+              <span class="ml-2 text-white-bone">Ambos</span>
+            </label>
+            <label class="inline-flex items-center">
+              <input type="checkbox" class="form-checkbox text-orange-500 rounded" value="ninguno">
+              <span class="ml-2 text-white-bone">Ninguno</span>
+            </label>
+          </div>
+        </div>
+        <div>
+          <label for="style-select" class="block text-white-bone text-sm font-bold mb-2">Estilo:</label>
+          <select id="style-select" class="w-full p-3 rounded-lg bg-neutral-900 border border-neutral-700 text-white-bone focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 shadow-glow">
+            <option value="fotografia">Fotografía (Default)</option>
+            <option value="ilustracion">Ilustración</option>
+            <option value="artedigital">Arte Digital</option>
+            <option value="acuarela">Acuarela</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label for="image-upload" class="block text-white-bone text-sm font-bold mb-2">Subir Imagen de Referencia:</label>
+        <input type="file" id="image-upload" accept="image/jpg,image/jpeg,image/png" class="block w-full text-sm text-white-bone
+          file:mr-4 file:py-2 file:px-4
+          file:rounded-full file:border-0
+          file:text-sm file:font-semibold
+          file:bg-gradient-to-r file:from-orange-600 file:via-orange-500 file:to-amber-200 file:text-deep-black
+          hover:file:from-orange-700 hover:file:via-orange-600 hover:file:to-amber-300
+          cursor-pointer transition-all duration-300"/>
+        <p class="text-xs text-neutral-500 mt-1">Modelo B (Visión)</p>
+        <div id="image-preview" class="mt-4 space-y-2">
+          <!-- Miniatura de imagen subida aquí -->
+        </div>
+      </div>
+
+      <button id="send-btn" class="w-full px-6 py-3 rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-amber-200 text-deep-black font-bold shadow-md hover:from-orange-700 hover:via-orange-600 hover:to-amber-300 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed" type="button">
+        Enviar Información
+      </button>
+
+      <div class="mt-8">
+        <h2 class="text-2xl font-bold text-amber-bright mb-4">Resultados del Prompt</h2>
+        <p id="model-info" class="text-sm text-neutral-400 mb-2">Modelo: -</p>
+        <div class="space-y-4">
+          <div>
+            <label for="prompt-es" class="block text-white-bone text-sm font-bold mb-2">Prompt Fotográfico (Español):</label>
+            <textarea id="prompt-es" rows="5" class="w-full p-3 rounded-lg bg-neutral-900 border border-neutral-700 text-white-bone focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 shadow-glow" readonly></textarea>
+            <button type="button" class="mt-2 px-4 py-2 rounded-full bg-orange-500 text-deep-black text-sm font-bold hover:bg-orange-600 transition-colors duration-300 copy-btn" data-target="prompt-es">Copiar</button>
+          </div>
+          <!-- English output removed: results are only shown in Spanish -->
+          <div>
+            <label for="prompt-video" class="block text-white-bone text-sm font-bold mb-2">Sugerencia de Animación (WAN/Luma):</label>
+            <textarea id="prompt-video" rows="5" class="w-full p-3 rounded-lg bg-neutral-900 border border-neutral-700 text-white-bone focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 shadow-glow" readonly></textarea>
+            <button type="button" class="mt-2 px-4 py-2 rounded-full bg-orange-500 text-deep-black text-sm font-bold hover:bg-orange-600 transition-colors duration-300 copy-btn" data-target="prompt-video">Copiar</button>
+          </div>
+        </div>
+        <button type="button" id="save-favorites-btn" class="mt-6 w-full px-6 py-3 rounded-full bg-gradient-to-r from-orange-600 via-orange-500 to-amber-200 text-deep-black font-bold shadow-md hover:from-orange-700 hover:via-orange-600 hover:to-amber-300 transition-all duration-300">
+          Guardar en Favoritos
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-8 p-4 bg-dark-gray rounded-lg shadow-lg">
+      <!-- Panel Inferior para Favoritos -->
+      <h2 class="text-2xl font-bold text-amber-bright mb-4">Mis Prompts Favoritos</h2>
+      <div class="mb-4">
+        <input type="text" id="search-favorites" placeholder="Buscar en favoritos..." class="w-full p-3 rounded-lg bg-neutral-900 border border-neutral-700 text-white-bone focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300 shadow-glow" />
+      </div>
+      <div class="overflow-x-auto mb-8">
+        <table class="min-w-full bg-neutral-900 rounded-lg overflow-hidden">
+          <thead>
+            <tr>
+              <th class="px-4 py-2 text-left text-amber-bright font-bold border-b border-copper">ID</th>
+              <th class="px-4 py-2 text-left text-amber-bright font-bold border-b border-copper">Título</th>
+              <th class="px-4 py-2 text-left text-amber-bright font-bold border-b border-copper">Personaje</th>
+              <th class="px-4 py-2 text-left text-amber-bright font-bold border-b border-copper">Prompt_ES</th>
+              <th class="px-4 py-2 text-left text-amber-bright font-bold border-b border-copper">Prompt_ES</th>
+              <th class="px-4 py-2 text-left text-amber-bright font-bold border-b border-copper">Prompt_Video</th>
+            </tr>
+          </thead>
+          <tbody id="favorites-table-body">
+            <!-- Filas de prompts favoritos se insertarán aquí -->
+            <tr class="bg-neutral-800/80 hover:bg-neutral-700/80 transition-colors duration-200">
+              <td class="px-4 py-2 border-b border-neutral-700">1</td>
+              <td class="px-4 py-2 border-b border-neutral-700">Atardecer en la playa</td>
+              <td class="px-4 py-2 border-b border-neutral-700">Andy</td>
+              <td class="px-4 py-2 border-b border-neutral-700">... prompt en español ...</td>
+              <td class="px-4 py-2 border-b border-neutral-700">... prompt de video ...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Contenedor de Alertas Dinámicas -->
+      <div id="alerts-container" class="space-y-4 mt-8 mb-8">
+        <!-- Las alertas se insertarán aquí dinámicamente -->
+      </div>
+
+    </div>
+  </div>
+  <script src="./app.js"></script>
+</body>
+</html>

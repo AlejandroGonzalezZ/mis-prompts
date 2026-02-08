@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --toast-x-offset: 1rem;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-from-top-4 {
+  from {
+    transform: translateY(-1rem);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+}
+
+.fade-in {
+  animation-name: fade-in;
+}
+
+.slide-in-from-top-4 {
+  animation-name: slide-in-from-top-4;
+}

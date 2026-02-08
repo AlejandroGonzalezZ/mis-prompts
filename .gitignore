@@ -1,0 +1,28 @@
+# Variables de entorno
+.env
+.env.local
+.env.backup
+.env*.backup
+
+# Node modules
+node_modules/
+package-lock.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Archivos temporales
+*.tmp
+temp/

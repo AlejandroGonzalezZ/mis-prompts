@@ -199,9 +199,8 @@ const FormHandler = {
     });
 
     // Agregar botón "Guardar en Favoritos"
-    const saveFavBtn = document.querySelector('button.bg-gradient-to-r.from-orange-600:last-of-type');
+    const saveFavBtn = document.getElementById('save-favorites-btn');
     if (saveFavBtn) {
-      saveFavBtn.id = 'save-favorites-btn';
       saveFavBtn.addEventListener('click', () => this.saveFavorite());
     }
   },
@@ -241,9 +240,20 @@ const FormHandler = {
     }
   },
 
+  showProgressMessage(message) {
+    AlertSystem.show(message, 'warning', 0); // 0 = no auto-close while processing
+  },
+
   async submitToBackend(data) {
     try {
       console.log('Enviando datos al backend:', data);
+
+      // Mostrar mensaje de inicio
+      if (data.image) {
+        AlertSystem.show('📸 Analizando imagen...', 'warning', 0);
+      } else {
+        AlertSystem.show('🤖 Generando prompts...', 'warning', 0);
+      }
 
       // Preparar FormData para enviar con archivo si existe
       const formData = new FormData();
@@ -288,7 +298,9 @@ const FormHandler = {
         model_info: result.model_info || result.model_used || ''
       });
       
-      AlertSystem.show('¡Prompts generados exitosamente!', AlertSystem.SUCCESS);
+      // Limpiar mensaje de progreso y mostrar éxito
+      document.querySelectorAll('#alerts-container > div').forEach(alert => alert.remove());
+      AlertSystem.show('✅ ¡Prompts generados exitosamente!', AlertSystem.SUCCESS);
       console.log('✅ Respuesta del servidor:', result);
 
     } catch (error) {
@@ -343,7 +355,7 @@ const FormHandler = {
       if (result.success) {
         AlertSystem.show('¡Prompt agregado a favoritos!', AlertSystem.SUCCESS);
         this.clearForm();
-        this.loadFavorites(); // Recargar tabla de favoritos
+        FavoritesHandler.loadFavorites(); // Recargar tabla de favoritos
       } else {
         AlertSystem.show('Error al guardar: ' + result.error, AlertSystem.ERROR);
       }
